@@ -29,8 +29,7 @@ WHERE d.code=37 OR d.code=77;
 
 /* Select all the data of employees whose last name begins with an "S" */
 
-SELECT * FROM employees 
-WHERE lastname LIKE 'S%';
+SELECT * FROM employees WHERE lastname LIKE 'S%';
 
 /* Select the sum of all the department's budgets */
 
@@ -38,9 +37,7 @@ SELECT SUM(budget) FROM departments;
 
 /* Select the number of employees in each department (you only need to show the department code and the number of employees). */
 
-SELECT d.code, COUNT(e.SSN) FROM employees AS e
-INNER JOIN departments AS d ON e.department=d.code
-GROUP BY d.code;
+SELECT department, COUNT(ssn) FROM employees GROUP BY department;
 
 /* Select all the data of employees, including each employee's department's data. */
 
