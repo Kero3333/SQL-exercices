@@ -1,0 +1,9 @@
+To started :
+
+docker run --name pgbase -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:alpine
+docker exec -i pgbase pg_restore -U postgres -v -d <db_name> < ./dump.tar
+
+Instructions :
+
+Find the killer of the report located at 'SQL City' and commited the 2018-01-15
+
