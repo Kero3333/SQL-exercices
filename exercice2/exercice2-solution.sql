@@ -29,9 +29,8 @@ WHERE d.code=37 OR d.code=77;
 
 /* Select all the data of employees whose last name begins with an "S" */
 
-SELECT * FROM employees AS e
-INNER JOIN departments AS d ON e.department=d.code
-WHERE d.code=37 OR d.code=77;
+SELECT * FROM employees 
+WHERE lastname LIKE 'S%';
 
 /* Select the sum of all the department's budgets */
 
@@ -89,3 +88,23 @@ INSERT INTO departments (code, name, budget) VALUES (11, 'Quality Assurance', 40
 /* Add an employee called "Mary Moore" in that department, with SSN 847-21-9811. */
 
 INSERT INTO employees (ssn, name, lastname, department) VALUES (CAST('847219811' AS INTEGER), 'Mary', 'Moore', 11);
+
+/* Reduce the budget of all departments by 10%. */
+
+UPDATE departments SET budget=(budget * 0.9);
+
+/* Reassign all employees from Research department (code 77) to the IT department (code 14). */
+
+UPDATE employees SET department=14 WHERE department=77;
+
+/* Delete from the table all employees in the IT department (code 14). */
+
+DELETE FROM employees WHERE department=14;
+
+/* Delete from the table all employees who work in departments with a budget greater than or equal to $60,000. */
+
+DELETE FROM employees WHERE department=(SELECT code FROM departments WHERE budget>=60000);
+
+/* Delete from the table all employees. */
+
+DELETE FROM employees;
