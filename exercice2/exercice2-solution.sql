@@ -4,28 +4,23 @@ SELECT lastname FROM employees;
 
 /* Select the last name of all employees, without duplicates. */
 
-SELECT lastname FROM employees GROUP BY lastname;
+SELECT DISTINCT lastname FROM employees;
 
 /* Select all the data of employees whose last name is "Smith". */
 
-SELECT * FROM employees 
-WHERE lastname='Smith';
+SELECT * FROM employees WHERE lastname='Smith';
 
-/* Select all the data of employees whose last name is "Smith" or "Doe'. */
+/* Select all the data of employees whose last name is "Smith" or "Doe". */
 
-SELECT * FROM employees
-WHERE lastname='Smith' OR lastname='Doe';
+SELECT * FROM employees WHERE lastname IN ('Smith', 'Doe');
 
 /* Select all the data of employees that work in department 14. */
 
-SELECT * FROM employees
-WHERE department=14;
+SELECT * FROM employees WHERE department=14;
 
 /* Select all the data of employees that work in department 37 or 77 */
 
-SELECT * FROM employees AS e
-INNER JOIN departments AS d ON e.department=d.code
-WHERE d.code=37 OR d.code=77;
+SELECT * FROM employees WHERE department IN (37, 77);
 
 /* Select all the data of employees whose last name begins with an "S" */
 
@@ -86,7 +81,7 @@ INSERT INTO departments (code, name, budget) VALUES (11, 'Quality Assurance', 40
 
 INSERT INTO employees (ssn, name, lastname, department) VALUES (CAST('847219811' AS INTEGER), 'Mary', 'Moore', 11);
 
-/* Reduce the budget of all departments by 10%. */
+/* Reduce the budget of all departments by 10%. */ 
 
 UPDATE departments SET budget=(budget * 0.9);
 
@@ -100,7 +95,7 @@ DELETE FROM employees WHERE department=14;
 
 /* Delete from the table all employees who work in departments with a budget greater than or equal to $60,000. */
 
-DELETE FROM employees WHERE department=(SELECT code FROM departments WHERE budget>=60000);
+DELETE FROM employees WHERE department IN (SELECT code FROM departments WHERE budget>=60000);
 
 /* Delete from the table all employees. */
 
