@@ -51,7 +51,7 @@ CREATE TRIGGER userNameFormat AFTER INSERT ON public.users FOR EACH ROW EXECUTE 
 
 INSERT INTO users (name, age) VALUES ('Jean', 32);
 INSERT INTO users (name, age) VALUES ('Marie', 17);
-INSERT INTO users (name, age) VALUES ('MarcO', 19);
+INSERT INTO users (name, age) VALUES ('marcO', 18);
 
 SELECT * FROM users;
 
