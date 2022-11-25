@@ -13,7 +13,7 @@ DECLARE
  output TEXT;
 BEGIN
     CASE 
-        WHEN NEW.age>=18 THEN UPDATE users SET created_at=NOW() WHERE id=NEW.id;
+        WHEN NEW.age>=18 THEN NEW.created_at=NOW();
         ELSE DELETE FROM users WHERE id=NEW.id;
     END CASE;
     CASE 
@@ -31,15 +31,10 @@ CREATE FUNCTION public.userNameFormat() RETURNS trigger
 DECLARE
     output TEXT;
 BEGIN 
-    CASE
-        WHEN (UPPER(SUBSTR(NEW.name, 1, 1))!=SUBSTR(NEW.name, 1, 1)) OR (LOWER(SUBSTR(NEW.name, 2))!=SUBSTR(NEW.name, 2)) 
-        THEN UPDATE users SET name=CONCAT(UPPER(SUBSTR(NEW.name, 1, 1)), LOWER((SUBSTR(NEW.name, 2)))) WHERE id=NEW.id;
-        ELSE null;
-    END CASE;
     output:=CONCAT(NEW.name, ' became ', CONCAT(UPPER(SUBSTR(NEW.name, 1, 1)), LOWER((SUBSTR(NEW.name, 2)))));
     CASE
         WHEN (UPPER(SUBSTR(NEW.name, 1, 1))!=SUBSTR(NEW.name, 1, 1)) OR (LOWER(SUBSTR(NEW.name, 2))!=SUBSTR(NEW.name, 2)) 
-        THEN raise notice '%', output;
+        THEN NEW.name=CONCAT(UPPER(SUBSTR(NEW.name, 1, 1)), LOWER((SUBSTR(NEW.name, 2))));
         ELSE null;
     END CASE;
     RETURN coalesce(NEW, OLD);
