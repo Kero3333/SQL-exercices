@@ -1,3 +1,8 @@
+DROP FUNCTION public.insertUsers() CASCADE;
+DROP FUNCTION public.userNameFormat() CASCADE;
+
+DROP TABLE users;
+
 CREATE TABLE users (
     id SERIAL NOT NULL,
     name TEXT NOT NULL,
@@ -13,7 +18,7 @@ DECLARE
  output TEXT;
 BEGIN
     CASE 
-        WHEN NEW.age>=18 THEN NEW.created_at=NOW();
+        WHEN NEW.age>=18 THEN UPDATE users SET created_at=NOW() WHERE id=NEW.id;
         ELSE DELETE FROM users WHERE id=NEW.id;
     END CASE;
     CASE 
@@ -35,24 +40,20 @@ BEGIN
     CASE
         WHEN (UPPER(SUBSTR(NEW.name, 1, 1))!=SUBSTR(NEW.name, 1, 1)) OR (LOWER(SUBSTR(NEW.name, 2))!=SUBSTR(NEW.name, 2)) 
         THEN NEW.name=CONCAT(UPPER(SUBSTR(NEW.name, 1, 1)), LOWER((SUBSTR(NEW.name, 2))));
-        ELSE null;
+        ELSE output:='';
     END CASE;
+    raise notice '%', output;
     RETURN coalesce(NEW, OLD);
 END;
 $$;
 
 CREATE TRIGGER insertUsers AFTER INSERT ON public.users FOR EACH ROW EXECUTE FUNCTION public.insertUsers();
-CREATE TRIGGER userNameFormat AFTER INSERT ON public.users FOR EACH ROW EXECUTE FUNCTION public.userNameFormat();
+CREATE TRIGGER userNameFormat BEFORE INSERT ON public.users FOR EACH ROW EXECUTE FUNCTION public.userNameFormat();
 
 INSERT INTO users (name, age) VALUES ('Jean', 32);
 INSERT INTO users (name, age) VALUES ('Marie', 17);
 INSERT INTO users (name, age) VALUES ('marcO', 18);
 
 SELECT * FROM users;
-
-DROP FUNCTION public.insertUsers() CASCADE;
-DROP FUNCTION public.userNameFormat() CASCADE;
-
-DELETE FROM users;
 
 
