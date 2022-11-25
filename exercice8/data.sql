@@ -48,8 +48,8 @@ CREATE TABLE Procedures (
 CREATE TABLE Trained_In (
   Physician INTEGER NOT NULL,
   Treatment INTEGER NOT NULL,
-  CertificationDate DATETIME NOT NULL,
-  CertificationExpires DATETIME NOT NULL,
+  CertificationDate TIMESTAMP(0) NOT NULL,
+  CertificationExpires TIMESTAMP(0) NOT NULL,
   CONSTRAINT fk_Trained_In_Physician_EmployeeID FOREIGN KEY(Physician) REFERENCES Physician(EmployeeID),
   CONSTRAINT fk_Trained_In_Procedures_Code FOREIGN KEY(Treatment) REFERENCES Procedures(Code),
   PRIMARY KEY(Physician, Treatment)
@@ -78,8 +78,8 @@ CREATE TABLE Appointment (
   Patient INTEGER NOT NULL,    
   PrepNurse INTEGER,
   Physician INTEGER NOT NULL,
-  Start DATETIME NOT NULL,
-  End DATETIME NOT NULL,
+  Start TIMESTAMP(0) NOT NULL,
+  Enddd TIMESTAMP(0) NOT NULL,
   ExaminationRoom TEXT NOT NULL,
   CONSTRAINT fk_Appointment_Patient_SSN FOREIGN KEY(Patient) REFERENCES Patient(SSN),
   CONSTRAINT fk_Appointment_Nurse_EmployeeID FOREIGN KEY(PrepNurse) REFERENCES Nurse(EmployeeID),
@@ -97,7 +97,7 @@ CREATE TABLE Prescribes (
   Physician INTEGER NOT NULL,
   Patient INTEGER NOT NULL, 
   Medication INTEGER NOT NULL, 
-  Date DATETIME NOT NULL,
+  Date TIMESTAMP(0) NOT NULL,
   Appointment INTEGER,  
   Dose VARCHAR(30) NOT NULL,
   PRIMARY KEY(Physician, Patient, Medication, Date),
@@ -126,9 +126,9 @@ CREATE TABLE On_Call (
   Nurse INTEGER NOT NULL,
   BlockFloor INTEGER NOT NULL, 
   BlockCode INTEGER NOT NULL,
-  OnCallStart DATETIME NOT NULL,
-  OnCallEnd DATETIME NOT NULL,
-  PRIMARY KEY(Nurse, BlockFloor, BlockCode, OnCallStart, OnCallEnd),
+  OnCallStart TIMESTAMP(0) NOT NULL,
+  OnCallEndd TIMESTAMP(0) NOT NULL,
+  PRIMARY KEY(Nurse, BlockFloor, BlockCode, OnCallStart, OnCallEndd),
   CONSTRAINT fk_OnCall_Nurse_EmployeeID FOREIGN KEY(Nurse) REFERENCES Nurse(EmployeeID),
   CONSTRAINT fk_OnCall_Block_Floor FOREIGN KEY(BlockFloor, BlockCode) REFERENCES Block(BlockFloor, BlockCode) 
 );
@@ -137,8 +137,8 @@ CREATE TABLE Stay (
   StayID INTEGER PRIMARY KEY NOT NULL,
   Patient INTEGER NOT NULL,
   Room INTEGER NOT NULL,
-  StayStart DATETIME NOT NULL,
-  StayEnd DATETIME NOT NULL,
+  StayStart TIMESTAMP(0) NOT NULL,
+  StayEndd TIMESTAMP(0) NOT NULL,
   CONSTRAINT fk_Stay_Patient_SSN FOREIGN KEY(Patient) REFERENCES Patient(SSN),
   CONSTRAINT fk_Stay_Room_Number FOREIGN KEY(Room) REFERENCES Room(RoomNumber)
 );
@@ -147,7 +147,7 @@ CREATE TABLE Undergoes (
   Patient INTEGER NOT NULL,
   Procedures INTEGER NOT NULL,
   Stay INTEGER NOT NULL,
-  DateUndergoes DATETIME NOT NULL,
+  DateUndergoes TIMESTAMP(0) NOT NULL,
   Physician INTEGER NOT NULL,
   AssistingNurse INTEGER,
   PRIMARY KEY(Patient, Procedures, Stay, DateUndergoes),
@@ -160,14 +160,14 @@ CREATE TABLE Undergoes (
 
 
 INSERT INTO Physician VALUES(1,'John Dorian','Staff Internist',111111111);
-INSERT INTO Physician VALUES(2,'Elliot Reid','Attending Physician',222222222);
-INSERT INTO Physician VALUES(3,'Christopher Turk','Surgical Attending Physician',333333333);
-INSERT INTO Physician VALUES(4,'Percival Cox','Senior Attending Physician',444444444);
+INSERT INTO Physician VALUES(2,'Elliot Reid','AttEndding Physician',222222222);
+INSERT INTO Physician VALUES(3,'Christopher Turk','Surgical AttEndding Physician',333333333);
+INSERT INTO Physician VALUES(4,'Percival Cox','Senior AttEndding Physician',444444444);
 INSERT INTO Physician VALUES(5,'Bob Kelso','Head Chief of Medicine',555555555);
-INSERT INTO Physician VALUES(6,'Todd Quinlan','Surgical Attending Physician',666666666);
-INSERT INTO Physician VALUES(7,'John Wen','Surgical Attending Physician',777777777);
+INSERT INTO Physician VALUES(6,'Todd Quinlan','Surgical AttEndding Physician',666666666);
+INSERT INTO Physician VALUES(7,'John Wen','Surgical AttEndding Physician',777777777);
 INSERT INTO Physician VALUES(8,'Keith Dudemeister','MD Resident',888888888);
-INSERT INTO Physician VALUES(9,'Molly Clock','Attending Psychiatrist',999999999);
+INSERT INTO Physician VALUES(9,'Molly Clock','AttEndding Psychiatrist',999999999);
 
 INSERT INTO Department VALUES(1,'General Medicine',4);
 INSERT INTO Department VALUES(2,'Surgery',7);
